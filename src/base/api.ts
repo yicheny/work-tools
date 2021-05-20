@@ -11,6 +11,11 @@ window.extends_settings = {
 
 type cancel = CancelToken | true | undefined;
 
+interface IRequestResult{
+    code:number,
+    message:string
+}
+
 class API{
     static servers:Voidable<AxiosInstance[]> = undefined;
 
@@ -33,7 +38,7 @@ class API{
 
     index:number;
     axios:Nullable<AxiosInstance>;
-    source?:CancelTokenSource
+    source:CancelTokenSource
 
     constructor(index:number) {
         this.index = index;
@@ -41,29 +46,28 @@ class API{
         this.source = Axios.CancelToken.source();
     }
 
-    _ensureAxios() {
+    private _ensureAxios() {
         if (API.servers === undefined)
             API.init();
         if (API.servers === null || API.servers?.length === 0)
             throw new Exception(Exception.SYSTEM, -2, '服务器未正确设置。');
-        if (API.servers.length <= this.index)
+        if (_.get(API,'servers.length') <= this.index)
             throw new Exception(Exception.SYSTEM, -3, '指定的服务器设置不正确。');
-        if (this.index < API.servers.length)
-            this.axios = API.servers[this.index];
+        if (this.index < _.get(API,'servers.length'))
+            this.axios = _.get(API.servers,`${this.index}`);
     }
 
-    _isStandardData(d:Object){
+    private static _isStandardData(d:IRequestResult){
         if(!_.isPlainObject(d)) return false;
-        if(!d.hasOwnProperty('code') || !d.hasOwnProperty('message')) return false;
-        return true;
+        return !(!d.hasOwnProperty('code') || !d.hasOwnProperty('message'));
     }
 
-    _request(method:Method,url:string,data?:any,onUploadProgress?:(progressEvent: any) => void,cancel?:cancel){
+    private _request(method:Method,url:string,data?:any,onUploadProgress?:(progressEvent: any) => void,cancel?:cancel){
         return new Promise(async (resolve,reject)=>{
-            const setConfigCancelToken = (config) => {
+            const setConfigCancelToken = (config:AxiosRequestConfig) => {
                 if (cancel === undefined || cancel === true){
                     config.cancelToken = this.source.token;
-                } else if (cancel instanceof Axios.CancelToken){
+                } else {
                     config.cancelToken = cancel;
                 }
             }
@@ -75,8 +79,8 @@ class API{
                         xorigin:window.location.origin
                     } }
                 setConfigCancelToken(config);
-                const res = (await this.axios.request(config)).data;
-                if(!this._isStandardData(res)) {
+                const res:IRequestResult = (await _.get(this,'axios.request'))(config).data;
+                if(!API._isStandardData(res)) {
                     return reject(new Exception(Exception.API,-1,'返回的数据结构不正确',url))
                 }
                 if(res.code === 0) {
@@ -95,8 +99,6 @@ class API{
     }
 
     download(url:string){
-        if (!_.isString(url)) throw new Error("Parameter url is not valid.");
-
         let href = '';
         addPrefix();
         addUuid();
