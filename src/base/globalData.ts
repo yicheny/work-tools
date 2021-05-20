@@ -1,7 +1,7 @@
 import {Nullable} from "../ts-base";
 
 interface IUser{
-
+    uuid?:string,
 }
 
 class GlobalData{

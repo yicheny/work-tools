@@ -23,3 +23,10 @@ const FB = window.FB;
 ```
 
 [详细方案](https://stackoverflow.com/questions/56457935/typescript-error-property-x-does-not-exist-on-type-window)
+
+# 访问对象属性时可能未定义
+报错：`'TS2532: Object is possibly 'undefined'?`
+
+解决方案：使用`?`访问符【TS3.7之后可以使用】
+
+[详细方案](https://stackoverflow.com/questions/54884488/how-can-i-solve-the-error-ts2532-object-is-possibly-undefined)
