@@ -30,3 +30,12 @@ const FB = window.FB;
 解决方案：使用`?`访问符【TS3.7之后可以使用】
 
 [详细方案](https://stackoverflow.com/questions/54884488/how-can-i-solve-the-error-ts2532-object-is-possibly-undefined)
+
+# 路由组件获取`history`、`location`等`prop`
+```tsx
+import {RouteComponentProps} from 'react-router-dom';
+
+const App:React.FunctionComponent<RouteComponentProps> = (history) => {};
+```
+
+[详细方案](https://stackoverflow.com/questions/49342390/typescript-how-to-add-type-check-for-history-object-in-react)

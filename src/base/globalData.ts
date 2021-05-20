@@ -5,8 +5,8 @@ interface IUser{
 }
 
 class GlobalData{
-    _user:Nullable<IUser> = null;
-    _storage = sessionStorage;
+    private _user:Nullable<IUser> = null;
+    private _storage = sessionStorage;
 
     get User():Nullable<IUser>{
         if (this._user === null) {

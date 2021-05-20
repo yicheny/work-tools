@@ -36,9 +36,9 @@ class API{
 
     }
 
-    index:number;
-    axios:Nullable<AxiosInstance>;
-    source:CancelTokenSource
+    private readonly index:number;
+    private axios:Nullable<AxiosInstance>;
+    private source:CancelTokenSource
 
     constructor(index:number) {
         this.index = index;
