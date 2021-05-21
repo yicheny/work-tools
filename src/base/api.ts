@@ -2,19 +2,16 @@ import Axios, {AxiosInstance, AxiosRequestConfig, CancelToken, CancelTokenSource
 import _ from 'lodash';
 import { globalData } from "./index";
 import {Exception} from "./index";
-import {Nullable, Voidable} from "../ts-base";
+import {IRequestResult, Nullable, Voidable} from "../ts-base";
 
 window.extends_settings = {
-    enable:true,
-    url:'api'
+    api_server:{
+        enable:true,
+        url:'api'
+    }
 }
 
 type cancel = CancelToken | true | undefined;
-
-interface IRequestResult{
-    code:number,
-    message:string
-}
 
 class API{
     static servers:Voidable<AxiosInstance[]> = undefined;
