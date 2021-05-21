@@ -4,12 +4,12 @@ import styles from './Login.module.scss';
 import {Api, globalData} from "./base";
 import {RouteComponentProps} from "react-router-dom";
 import {tryExecute} from "./common/utils";
+import {setDefaultSelectKey} from "./Sider";
 
 const layout = {
     labelCol: { span: 5 },
     wrapperCol: { span: 16 },
 };
-
 
 interface ILoginRequestParams{
     name:string,
@@ -25,6 +25,7 @@ const Login:React.FunctionComponent<RouteComponentProps> = function Login({histo
             const result:any = await loginRequest(values)
             globalData.User = result.data;
             message.success('登录成功!');
+            setDefaultSelectKey(0);
             history.push("/home");
         })
     };
