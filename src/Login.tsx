@@ -3,7 +3,7 @@ import {Card,Input,Button,Form,Checkbox,message} from 'antd';
 import styles from './Login.module.scss';
 import {Api, globalData} from "./base";
 import {RouteComponentProps} from "react-router-dom";
-import tryExecute from "./common/utils/tryExecute";
+import {tryExecute} from "./common/utils";
 
 const layout = {
     labelCol: { span: 5 },

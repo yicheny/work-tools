@@ -1,1 +1,1 @@
-import tryExecute from "./tryExecute";
+export {default as tryExecute} from "./tryExecute";

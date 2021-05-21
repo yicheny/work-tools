@@ -1,7 +1,13 @@
 import React from 'react';
+import {Button} from 'antd';
+import {useOpenInfo} from "../../common/hooks";
+import AddModal from "./AddModal";
 
 export default function OvertimeRecord() {
-    return (<div>
-        这里是加班记录页面
-    </div>)
+   const {openInfo,setOpenInfo,close} = useOpenInfo();
+
+    return <div>
+        <Button type='primary' onClick={()=>setOpenInfo({type:'add'})}>新增记录</Button>
+        <AddModal visible={openInfo.type==='add'} close={close}/>
+    </div>
 };

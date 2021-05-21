@@ -8,14 +8,15 @@ import Login from "./Login";
 import App from './App';
 
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode>
    <HashRouter>
        <Switch>
            <Route path='/login' component={Login}/>
            <Route component={App}/>
        </Switch>
    </HashRouter>
-  </React.StrictMode>,
+  // </React.StrictMode>
+    ,
   document.getElementById('root')
 );
 
