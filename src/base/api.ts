@@ -77,7 +77,7 @@ class API{
                         xorigin:window.location.origin
                     } }
                 setConfigCancelToken(config);
-                const res:IRequestResult = (await _.get(this,'axios.request'))(config).data;
+                const res:IRequestResult = (await _.get(this,'axios.request')(config)).data;
                 if(!API._isStandardData(res)) {
                     return reject(new Exception(Exception.API,-1,'返回的数据结构不正确',url))
                 }

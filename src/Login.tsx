@@ -1,7 +1,9 @@
 import React from 'react';
-import {Card,Input,Button,Form,Checkbox} from 'antd';
+import {Card,Input,Button,Form,Checkbox,message} from 'antd';
 import styles from './Login.module.scss';
 import {Api, globalData} from "./base";
+import {RouteComponentProps} from "react-router-dom";
+import tryExecute from "./common/utils/tryExecute";
 
 const layout = {
     labelCol: { span: 5 },
@@ -16,10 +18,15 @@ interface ILoginRequestParams{
     remember:boolean
 }
 
-export default function Login() {
-    const onFinish = async (values: ILoginRequestParams) => {
-        const data = await loginRequest(values)
-        console.log(data);
+const Login:React.FunctionComponent<RouteComponentProps> = function Login({history}) {
+
+    const onFinish = (values: ILoginRequestParams) => {
+        tryExecute(async ()=>{
+            const result:any = await loginRequest(values)
+            globalData.User = result.data;
+            message.success('登录成功!');
+            history.push("/home");
+        })
     };
 
     return <div className={styles.login}>
@@ -39,7 +46,7 @@ export default function Login() {
                 </Form.Item>
 
                 <Form.Item label="密码" name="password"
-                    rules={[{ required: true, message: '请输入您的密码' }]}>
+                           rules={[{ required: true, message: '请输入您的密码' }]}>
                     <Input.Password />
                 </Form.Item>
 
@@ -57,6 +64,8 @@ export default function Login() {
     </div>
 };
 
+export default Login;
+
 function loginRequest(params:ILoginRequestParams) {
     const {name,password,encrypted=false,remember} = params;
 
@@ -66,7 +75,5 @@ function loginRequest(params:ILoginRequestParams) {
     data.append('remember', remember.toString());
     data.append('encrypted', encrypted.toString());
 
-    return Api.post('/user/login', data).then((res:any) => {
-        globalData.User = res.data;
-    });
+    return Api.post('/user/login', data);
 }
