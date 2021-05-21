@@ -1,20 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {HashRouter,Switch,Route} from 'react-router-dom'
-import './index.css';
+import './index.scss';
 import reportWebVitals from './reportWebVitals';
 import 'antd/dist/antd.css';
 import Login from "./Login";
 import App from './App';
+import {ConfigProvider} from 'antd';
+import zhCN from 'antd/lib/locale/zh_CN';
 
 ReactDOM.render(
   // <React.StrictMode>
-   <HashRouter>
-       <Switch>
-           <Route path='/login' component={Login}/>
-           <Route component={App}/>
-       </Switch>
-   </HashRouter>
+    <ConfigProvider locale={zhCN}>
+        <HashRouter>
+            <Switch>
+                <Route path='/login' component={Login}/>
+                <Route component={App}/>
+            </Switch>
+        </HashRouter>
+    </ConfigProvider>
   // </React.StrictMode>
     ,
   document.getElementById('root')

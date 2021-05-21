@@ -20,7 +20,7 @@ interface ILoginRequestParams{
 
 const Login:React.FunctionComponent<RouteComponentProps> = function Login({history}) {
 
-    const onFinish = (values: ILoginRequestParams) => {
+    const commit = (values: ILoginRequestParams) => {
         tryExecute(async ()=>{
             const result:any = await loginRequest(values)
             globalData.User = result.data;
@@ -36,7 +36,7 @@ const Login:React.FunctionComponent<RouteComponentProps> = function Login({histo
                 name="basic"
                 {...layout}
                 initialValues={{ remember: true }}
-                onFinish={onFinish}
+                onFinish={commit}
             >
                 <Form.Item
                     label="账号"
