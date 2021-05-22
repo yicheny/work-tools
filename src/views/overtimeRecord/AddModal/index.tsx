@@ -28,8 +28,8 @@ const initialValues = {
     memo:null
 }
 
-export default function AddModal(props:{visible:boolean,close:()=>void}){
-    const {visible,close} = props;
+export default function AddModal(props:{visible:boolean,close:()=>void,query:()=>void}){
+    const {visible,close,query} = props;
 
     return <Modal title='新增' visible={visible} onOk={close} onCancel={close} footer={null}>
         <Form {...layout}
@@ -49,8 +49,8 @@ export default function AddModal(props:{visible:boolean,close:()=>void}){
                 <Select options={durationOptions}/>
             </Form.Item>
 
-            <Form.Item name={['memo']} label="原因" rules={[{ required: true }]}>
-                <Input.TextArea />
+            <Form.Item name={['memo']} label="备注" rules={[{ required: true }]}>
+                <Input.TextArea maxLength={100} showCount/>
             </Form.Item>
 
             <Form.Item wrapperCol={{offset:5}}>
@@ -63,6 +63,8 @@ export default function AddModal(props:{visible:boolean,close:()=>void}){
         tryExecute(async ()=>{
             await Api.post('/overtime-record/add',values);
             message.success("请求成功！");
+            close();
+            query();
         })
     }
 }

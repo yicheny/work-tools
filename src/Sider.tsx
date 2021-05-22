@@ -11,7 +11,7 @@ export default function Sider(){
                      setDefaultSelectKey(key);
                  }}
                  defaultSelectedKeys={[getDefaultSelectKey()]}
-                 style={{width:240}}>
+                 style={{minWidth:240}}>
         <Menu.Item key='0'>
             <Link to='/home'>首页</Link>
         </Menu.Item>
