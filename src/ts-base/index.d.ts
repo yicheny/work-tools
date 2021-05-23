@@ -6,6 +6,11 @@ export interface IApiServer{
     enable:boolean,
 }
 
+export interface IOptionsItem{
+    label:string,
+    value:string | number
+}
+
 export interface IExtendsSettings{
     api_server?:IApiServer
 }

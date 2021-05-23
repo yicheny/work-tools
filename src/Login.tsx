@@ -21,8 +21,8 @@ interface ILoginRequestParams{
 const Login:React.FunctionComponent<RouteComponentProps> = function Login({history}) {
 
     const commit = (values: ILoginRequestParams) => {
-        tryExecute(async ()=>{
-            const result:any = await loginRequest(values)
+        tryExecute(async () => {
+            const result: any = await loginRequest(values)
             globalData.User = result.data;
             message.success('登录成功!');
             setDefaultSelectKey(0);

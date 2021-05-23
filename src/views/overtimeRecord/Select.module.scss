@@ -1,0 +1,9 @@
+.form{
+  display:flex;
+  :global(.ant-row.ant-form-item){
+    &:last-child{
+      width: auto;
+    }
+    width: 180px;
+  }
+}
