@@ -8,7 +8,7 @@ import moment from 'moment';
 import styles from './index.module.scss';
 import Selects from "./Selects";
 import {IQueryParams} from "./ts-define";
-import ApprovalDetailModal from "./ApprovalDetailModal";
+import ApplyDetailModal from "./ApplyDetailModal";
 
 const columns = [
     {title: '姓名', dataIndex: 'name'},
@@ -27,7 +27,6 @@ export default function OvertimeRecord() {
 
     useEffect(()=>query(),[query]);
 
-    console.log(globalData.User.isManager)
     return <div className={styles.main}>
         <div className={styles.options}>
             <Selects setParams={setParams}/>
@@ -38,7 +37,7 @@ export default function OvertimeRecord() {
             <Table scroll={{y: 840}} dataSource={data} columns={columns} pagination={false}/>
         </Card>
         <AddModal visible={openInfo.type === 'add'} close={close} query={query}/>
-        <ApprovalDetailModal visible={openInfo.type === 'approvalDetail'} close={close} query={query}/>
+        <ApplyDetailModal visible={openInfo.type === 'approvalDetail'} close={close} query={query}/>
     </div>
 };
 

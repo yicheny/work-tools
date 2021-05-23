@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, DatePicker, Form, Input, message, Modal, Select} from "antd";
 import {tryExecute} from "../../../common/utils";
-import {Api} from "../../../base";
+import {Api, globalData} from "../../../base";
 import moment from 'moment';
 import {useWorkDurationOptions, useWorkerNameOptions} from "../../../common/options";
 
@@ -25,7 +25,7 @@ const initialValues = {
 export default function AddModal(props:{visible:boolean,close:()=>void,query:()=>void}){
     const {visible,close,query} = props;
 
-    return <Modal title='新增' visible={visible} onOk={close} onCancel={close} footer={null}>
+    return <Modal title={globalData.User.isManager ? '新增' : '申请'} visible={visible} onOk={close} onCancel={close} footer={null}>
         <Form {...layout}
               onFinish={commit}
               initialValues={initialValues}
@@ -55,7 +55,8 @@ export default function AddModal(props:{visible:boolean,close:()=>void,query:()=
 
     function commit(values:any){
         tryExecute(async () => {
-            await Api.post('/overtime-record/add', values);
+            const url = globalData.User.isManager ? '/overtime-record/add' : '/overtime-apply-record/add';
+            await Api.post(url, values);
             message.success("请求成功！");
             close();
             query();
