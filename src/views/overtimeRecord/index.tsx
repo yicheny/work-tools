@@ -1,13 +1,14 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Button, Table} from 'antd';
+import {Button, Table, Card} from 'antd';
 import {useOpenInfo} from "../../common/hooks";
 import AddModal from "./AddModal";
-import {Api} from "../../base";
+import {Api, globalData} from "../../base";
 import {tryExecute} from "../../common/utils";
 import moment from 'moment';
 import styles from './index.module.scss';
 import Selects from "./Selects";
 import {IQueryParams} from "./ts-define";
+import ApprovalDetailModal from "./ApprovalDetailModal";
 
 const columns = [
     {title: '姓名', dataIndex: 'name'},
@@ -26,13 +27,18 @@ export default function OvertimeRecord() {
 
     useEffect(()=>query(),[query]);
 
+    console.log(globalData.User.isManager)
     return <div className={styles.main}>
         <div className={styles.options}>
             <Selects setParams={setParams}/>
             <Button type='primary' onClick={() => setOpenInfo({type: 'add'})}>新增</Button>
         </div>
-        <Table scroll={{y: 840}} dataSource={data} columns={columns} pagination={false}/>
+        <Card title='记录'
+              extra={<Button  onClick={() => setOpenInfo({type: 'approvalDetail'})}>申请记录</Button>}>
+            <Table scroll={{y: 840}} dataSource={data} columns={columns} pagination={false}/>
+        </Card>
         <AddModal visible={openInfo.type === 'add'} close={close} query={query}/>
+        <ApprovalDetailModal visible={openInfo.type === 'approvalDetail'} close={close} query={query}/>
     </div>
 };
 

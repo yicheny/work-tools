@@ -1,7 +1,8 @@
 import Axios, {AxiosInstance, AxiosRequestConfig, CancelToken, CancelTokenSource, Method} from "axios";
 import _ from 'lodash';
 import { globalData } from "./index";
-import {Exception} from "./index";
+import Exception from "./Exception";
+import User from "./User";
 import {IRequestResult, Nullable, Voidable} from "../ts-base";
 
 window.extends_settings = {
@@ -73,7 +74,7 @@ class API{
             try{
                 this._ensureAxios();
                 const config = { method, url, data, onUploadProgress, headers:{
-                        uuid:globalData.User?.uuid,
+                        uuid:globalData.User.uuid,
                         xorigin:window.location.origin
                     } }
                 setConfigCancelToken(config);
@@ -85,7 +86,7 @@ class API{
                     return resolve(res);
                 }
                 if(res.code === 2007){
-                    globalData.User = null;
+                    globalData.User = new User(null);
                     sessionStorage.setItem("user-session-expired", "1");
                     window.location.reload();
                 }
