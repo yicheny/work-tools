@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {Button, Table, Card} from 'antd';
 import {useOpenInfo} from "../../common/hooks";
 import AddModal from "./AddModal";
-import {Api, globalData} from "../../base";
+import {Api} from "../../base";
 import {tryExecute} from "../../common/utils";
 import moment from 'moment';
 import styles from './index.module.scss';
