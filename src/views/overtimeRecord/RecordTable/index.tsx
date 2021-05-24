@@ -2,22 +2,29 @@ import {Table} from "antd";
 import _ from "lodash";
 import React from "react";
 import moment from "moment";
+import { ColumnsType } from "antd/lib/table";
 
-const columns = [
-    {title:"#",dataIndex:'#',width:60,render:(v: any, record: Object, i: number)=>i+1},
-    {title: '姓名', dataIndex: 'name',width:100},
-    {title: '日期', dataIndex: 'date',width:120,
-        render: (v: string) => moment(v).format('YYYY-MM-DD'),},
-    {title: '时长', dataIndex: 'duration', render: (v: number) => `${v}天`,width:80},
-    {title: '备注', dataIndex: 'memo'},
-    {title: '创建时间', dataIndex: 'createdAt', width:160,
-        render: (v: string) => moment(v).format('YYYY-MM-DD HH:MM:SS')}
-]
+export function getCommonColumns() {
+    return [
+        {title: "#", dataIndex: '#', width: 60, render: (v: any, record: Object, i: number) => i + 1},
+        {title: '姓名', dataIndex: 'name', width: 100},
+        {
+            title: '日期', dataIndex: 'date', width: 120,
+            render: (v: string) => moment(v).format('YYYY-MM-DD'),
+        },
+        {title: '时长', dataIndex: 'duration', render: (v: number) => `${v}天`, width: 80},
+        {title: '备注', dataIndex: 'memo'},
+        {
+            title: '创建时间', dataIndex: 'createdAt', width: 160,
+            render: (v: string) => moment(v).format('YYYY-MM-DD HH:MM:SS')
+        }
+    ];
+}
 
-export function RecordTable(props: { data: readonly any[] | undefined}){
+export function RecordTable(props: { data: readonly any[] | undefined; columns: ColumnsType<any> | undefined; }){
     return <Table scroll={{y: 640}}
                   dataSource={props.data}
-                  columns={columns}
+                  columns={props.columns}
                   pagination={false}
                   rowKey={(x)=>_.get(x,'_id')}/>
 }

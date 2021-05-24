@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Button, Card} from 'antd';
 import {useOpenInfo} from "../../common/hooks";
 import AddModal from "./AddModal";
@@ -8,7 +8,7 @@ import styles from './index.module.scss';
 import Selects from "./Selects";
 import {IQueryParams} from "./ts-define";
 import ApplyDetailModal from "./ApplyDetailModal";
-import {RecordTable} from "./RecordTable";
+import {getCommonColumns, RecordTable} from "./RecordTable";
 
 export default function OvertimeRecord() {
     const {openInfo, setOpenInfo, close} = useOpenInfo();
@@ -25,10 +25,12 @@ export default function OvertimeRecord() {
             <AddButton setOpenInfo={setOpenInfo}/>
         </div>
         <Card title='记录' extra={<ApplyDetailButton setOpenInfo={setOpenInfo}/>}>
-            <RecordTable data={data}/>
+            <RecordTable data={data} columns={useColumns()}/>
         </Card>
         <AddModal visible={openInfo.type === 'add'} close={close} refresh={query}/>
-        <ApplyDetailModal visible={openInfo.type === 'applyDetail'} close={close} refresh={query}/>
+        <ApplyDetailModal visible={openInfo.type === 'applyDetail'}
+                          close={close}
+                          refresh={query}/>
     </div>
 };
 
@@ -43,6 +45,12 @@ function useTableData() {
     }, [])
 
     return {data, request};
+}
+
+function useColumns(){
+    return useMemo(()=>{
+        return getCommonColumns()
+    },[])
 }
 
 function ApplyDetailButton(props: { setOpenInfo: (arg0: { type: string; }) => void; }) {
