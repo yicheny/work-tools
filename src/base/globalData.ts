@@ -13,13 +13,13 @@ class GlobalData{
     }
 
     set User(user) {
-        if (user) {
-            this._storage.setItem('current_user', JSON.stringify(user))
-            this._user = new User({ ...user });
-        }
-        else {
+        if (user.isNull) {
             this._storage.removeItem('current_user');
             this._user = new User(null);
+        }
+        else {
+            this._storage.setItem('current_user', JSON.stringify(user))
+            this._user = new User({ ...user });
         }
     }
 }

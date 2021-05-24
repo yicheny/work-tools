@@ -7,7 +7,7 @@ function ApplyDetailModal(props:{visible:boolean,close:()=>void,query:()=>void})
     const {visible,close,query} = props;
     const record = useApplyRecord();
 
-    console.log('record',record)
+    // console.log('record',record)
     return <Modal title='申请记录' visible={visible} onOk={close} onCancel={close} footer={null}>
 
     </Modal>
