@@ -22,10 +22,11 @@ const initialValues = {
     memo:null
 }
 
-export default function AddModal(props:{visible:boolean,close:()=>void,query:()=>void}){
-    const {visible,close,query} = props;
+export default function AddModal(props:{visible:boolean,close:()=>void,refresh:()=>void}){
+    const {visible,close,refresh} = props;
 
-    return <Modal title={globalData.User.isManager ? '新增' : '申请'} visible={visible} onOk={close} onCancel={close} footer={null}>
+    return <Modal title={globalData.User.isManager ? '新增' : '申请'}
+                  visible={visible} onOk={close} onCancel={close} footer={null}>
         <Form {...layout}
               onFinish={commit}
               initialValues={initialValues}
@@ -59,7 +60,7 @@ export default function AddModal(props:{visible:boolean,close:()=>void,query:()=
             await Api.post(url, values);
             message.success("请求成功！");
             close();
-            query();
+            refresh();
         })
     }
 }
