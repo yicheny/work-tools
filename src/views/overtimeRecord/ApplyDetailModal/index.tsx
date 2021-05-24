@@ -1,9 +1,9 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Modal} from "antd";
-import {Api} from "../../../base";
+import {Api, globalData} from "../../../base";
 import {tryExecute} from "../../../common/utils";
 import {getCommonColumns, RecordTable} from "../RecordTable";
-import {Link, Links} from "../../../common/components";
+import {Links} from "../../../common/components";
 
 function ApplyDetailModal(props: { visible: boolean, close: () => void, refresh: () => void }) {
     const {visible, close, refresh} = props;
@@ -19,7 +19,7 @@ function ApplyDetailModal(props: { visible: boolean, close: () => void, refresh:
                   onCancel={close}
                   width={840}
                   footer={null}>
-        <RecordTable data={record} columns={useColumns()}/>
+        <RecordTable data={record} columns={useColumns(useOperations())}/>
     </Modal>
 }
 
@@ -38,19 +38,34 @@ function useApplyRecord() {
     return {record, recordQuery};
 }
 
-function useColumns() {
+function useColumns(opreations:Object[]) {
     return useMemo(() => {
         const columns = getCommonColumns();
-        return columns.concat([
+        if(!globalData.User.isManager) return columns;
+        // @ts-ignore //TODO 待解决
+        return columns.concat(opreations);
+    }, [opreations])
+}
+
+function useOperations(){
+    return useMemo(()=>{
+        return [
             {
-                // @ts-ignore //TODO 待处理
-                title: '操作', dataIndex: 'operation', render: () => {
+                title: '操作', dataIndex: 'operation', render: (v:any,o:any) => {
                     return <Links data={[
-                        {children:'通过'},
-                        {children:'拒绝'},
+                        {children:'通过',onClick:()=>pass(o._id)},
+                        {children:'拒绝',onClick:()=>reject(o._id)},
                     ]}/>
                 }
             }
-        ]);
-    }, [])
+        ];
+
+        function pass(id:string){
+            console.log('通过！',id)
+        }
+
+        function reject(id:string){
+            console.log('拒绝！',id)
+        }
+    },[])
 }
