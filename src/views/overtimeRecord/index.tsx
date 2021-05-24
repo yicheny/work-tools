@@ -1,4 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
+import _ from 'lodash';
 import {Button, Table, Card} from 'antd';
 import {useOpenInfo} from "../../common/hooks";
 import AddModal from "./AddModal";
@@ -34,7 +35,8 @@ export default function OvertimeRecord() {
         </div>
         <Card title='记录'
               extra={<Button  onClick={() => setOpenInfo({type: 'approvalDetail'})}>申请记录</Button>}>
-            <Table scroll={{y: 840}} dataSource={data} columns={columns} pagination={false}/>
+            <Table scroll={{y: 840}} dataSource={data} columns={columns} pagination={false}
+                   rowKey={(x)=>_.get(x,'_id')}/>
         </Card>
         <AddModal visible={openInfo.type === 'add'} close={close} query={query}/>
         <ApplyDetailModal visible={openInfo.type === 'approvalDetail'} close={close} query={query}/>
