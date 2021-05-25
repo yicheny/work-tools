@@ -19,7 +19,7 @@ function ApplyDetailModal(props: { visible: boolean, close: () => void, refresh:
                   onCancel={close}
                   width={840}
                   footer={null}>
-        <RecordTable data={record} columns={useColumns(useOperations())}/>
+        <RecordTable data={record} columns={useColumns(useOperations(recordQuery))}/>
     </Modal>
 }
 
@@ -38,16 +38,16 @@ function useApplyRecord() {
     return {record, recordQuery};
 }
 
-function useColumns(opreations:Object[]) {
+function useColumns(operations:Object[]) {
     return useMemo(() => {
         const columns = getCommonColumns();
         if(!globalData.User.isManager) return columns;
         // @ts-ignore //TODO 待解决
-        return columns.concat(opreations);
-    }, [opreations])
+        return columns.concat(operations);
+    }, [operations])
 }
 
-function useOperations(){
+function useOperations(recordQuery: ()=>void){
     return useMemo(()=>{
         return [
             {
@@ -61,11 +61,15 @@ function useOperations(){
         ];
 
         function pass(id:string){
-            console.log('通过！',id)
+            // console.log('通过！',id)
         }
 
         function reject(id:string){
-            console.log('拒绝！',id)
+            // console.log('拒绝！',id);
+            tryExecute(async ()=>{
+                await Api.get(`/overtime-apply-record/reject?id=${id}`);
+                recordQuery();
+            })
         }
-    },[])
+    },[recordQuery])
 }
