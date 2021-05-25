@@ -2,7 +2,7 @@ import {Table} from "antd";
 import _ from "lodash";
 import React from "react";
 import moment from "moment";
-import { ColumnsType } from "antd/lib/table";
+import {ColumnsType} from "antd/lib/table";
 
 export function getCommonColumns() {
     return [
@@ -21,10 +21,17 @@ export function getCommonColumns() {
     ];
 }
 
-export function RecordTable(props: { data: readonly any[] | undefined; columns: ColumnsType<any> | undefined; }){
+interface IProps {
+    data: readonly any[] | undefined;
+    columns: ColumnsType<any> | undefined;
+    loading?: boolean
+}
+
+export function RecordTable(props:IProps) {
     return <Table scroll={{y: 640}}
                   dataSource={props.data}
                   columns={props.columns}
+                  loading={props.loading}
                   pagination={false}
-                  rowKey={(x)=>_.get(x,'_id')}/>
+                  rowKey={(x) => _.get(x, '_id')}/>
 }

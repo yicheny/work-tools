@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Button, Card} from 'antd';
-import {useOpenInfo} from "../../common/hooks";
+import {useOpenInfo, usePost} from "../../common/hooks";
 import AddModal from "./AddModal";
-import {Api, globalData} from "../../base";
+import {globalData} from "../../base";
 import {tryExecute} from "../../common/utils";
 import styles from './index.module.scss';
 import Selects from "./Selects";
@@ -12,7 +12,7 @@ import {getCommonColumns, RecordTable} from "./RecordTable";
 
 export default function OvertimeRecord() {
     const {openInfo, setOpenInfo, close} = useOpenInfo();
-    const {data, request} = useTableData();
+    const {data, request, loading} = useTableData();
     const [params, setParams] = useState<IQueryParams>({});
 
     const query = useCallback(() => request(params), [request, params]);
@@ -25,7 +25,7 @@ export default function OvertimeRecord() {
             <AddButton setOpenInfo={setOpenInfo}/>
         </div>
         <Card title='记录' extra={<ApplyDetailButton setOpenInfo={setOpenInfo}/>}>
-            <RecordTable data={data} columns={useColumns()}/>
+            <RecordTable data={data} columns={useColumns()} loading={loading}/>
         </Card>
         <AddModal visible={openInfo.type === 'add'} close={close} refresh={query}/>
         <ApplyDetailModal visible={openInfo.type === 'applyDetail'}
@@ -35,16 +35,15 @@ export default function OvertimeRecord() {
 };
 
 function useTableData() {
-    const [data, setData] = useState([]);
+    const {data,doFetch,loading} = usePost();
 
     const request = useCallback((values?: IQueryParams) => {
         tryExecute(async () => {
-            const result: any = await Api.post(`/overtime-record/query`, values);
-            setData(result?.data);
+            await doFetch(`/overtime-record/query`, values);
         })
-    }, [])
+    }, [doFetch])
 
-    return {data, request};
+    return {data, request,loading};
 }
 
 function useColumns(){

@@ -1,13 +1,14 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {Modal} from "antd";
 import {Api, globalData} from "../../../base";
 import {tryExecute} from "../../../common/utils";
 import {getCommonColumns, RecordTable} from "../RecordTable";
 import {Links} from "../../../common/components";
+import {usePost} from "../../../common/hooks";
 
 function ApplyDetailModal(props: { visible: boolean, close: () => void, refresh: () => void }) {
     const {visible, close, refresh} = props;
-    const {record, recordQuery} = useApplyRecord();
+    const {record, recordQuery, loading} = useApplyRecord();
 
     useEffect(() => {
         visible && recordQuery && recordQuery();
@@ -19,23 +20,23 @@ function ApplyDetailModal(props: { visible: boolean, close: () => void, refresh:
                   onCancel={close}
                   width={840}
                   footer={null}>
-        <RecordTable data={record} columns={useColumns(useOperations(recordQuery,refresh))}/>
+        <RecordTable data={record} loading={loading}
+                     columns={useColumns(useOperations(recordQuery,refresh))}/>
     </Modal>
 }
 
 export default ApplyDetailModal;
 
 function useApplyRecord() {
-    const [record, setData] = useState([]);
+    const {data: record,doFetch,loading} = usePost();
 
     const recordQuery = useCallback(() => {
         tryExecute(async () => {
-            const res: any = await Api.post('/overtime-apply-record/query');
-            setData(res.data);
+            await doFetch('/overtime-apply-record/query');
         })
-    }, []);
+    }, [doFetch]);
 
-    return {record, recordQuery};
+    return {record, recordQuery, loading };
 }
 
 function useColumns(operations:Object[]) {
