@@ -42,7 +42,6 @@ function useApplyRecord() {
 function useColumns(operations:Object[]) {
     return useMemo(() => {
         const columns = getCommonColumns();
-        if(!globalData.User.isManager) return columns;
         // @ts-ignore //TODO 待解决
         return columns.concat(operations);
     }, [operations])
@@ -50,16 +49,18 @@ function useColumns(operations:Object[]) {
 
 function useOperations(recordQuery: ()=>void,refresh:()=>void){
     return useMemo(()=>{
-        return [
-            {
+        return [{
                 title: '操作', dataIndex: 'operation', render: (v:any,o:any) => {
-                    return <Links data={[
-                        {children:'通过',onClick:()=>pass(o._id)},
-                        {children:'拒绝',onClick:()=>reject(o._id)},
-                    ]}/>
+                    return <Links data={getOperationData(o)}/>
                 }
-            }
-        ];
+            }];
+
+        function getOperationData(o:any){
+            return [
+                {children:'通过',onClick:()=>pass(o._id),visible:globalData.User.isManager},
+                {children:'撤销',onClick:()=>reject(o._id),visible: true},
+            ].filter(x=>x.visible);
+        }
 
         function pass(id:string){
             tryExecute(async ()=>{
