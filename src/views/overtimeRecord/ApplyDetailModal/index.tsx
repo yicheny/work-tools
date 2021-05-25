@@ -19,7 +19,7 @@ function ApplyDetailModal(props: { visible: boolean, close: () => void, refresh:
                   onCancel={close}
                   width={840}
                   footer={null}>
-        <RecordTable data={record} columns={useColumns(useOperations(recordQuery))}/>
+        <RecordTable data={record} columns={useColumns(useOperations(recordQuery,refresh))}/>
     </Modal>
 }
 
@@ -47,7 +47,7 @@ function useColumns(operations:Object[]) {
     }, [operations])
 }
 
-function useOperations(recordQuery: ()=>void){
+function useOperations(recordQuery: ()=>void,refresh:()=>void){
     return useMemo(()=>{
         return [
             {
@@ -61,7 +61,11 @@ function useOperations(recordQuery: ()=>void){
         ];
 
         function pass(id:string){
-            // console.log('通过！',id)
+            tryExecute(async ()=>{
+                await Api.get(`/overtime-apply-record/pass?id=${id}`);
+                recordQuery();
+                refresh();
+            })
         }
 
         function reject(id:string){
@@ -71,5 +75,5 @@ function useOperations(recordQuery: ()=>void){
                 recordQuery();
             })
         }
-    },[recordQuery])
+    },[recordQuery,refresh])
 }
