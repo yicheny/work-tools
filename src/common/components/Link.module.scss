@@ -1,4 +1,6 @@
+@import "../../base.scss";
+
 .link{
-  color:#1890ff;
+  color:$primary-color;
   cursor: pointer;
 }

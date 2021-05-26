@@ -1,5 +1,13 @@
+import React from "react";
+
 export type Nullable<T> = T | null;
 export type Voidable<T> = T | null | undefined
+
+export interface IComponentBaseProps{
+    className?: string;
+    style?: React.CSSProperties | undefined;
+    onClick?: React.MouseEventHandler<HTMLSpanElement> | undefined;
+}
 
 export interface IApiServer{
     url:string[] | string,

@@ -1,6 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
 import {Api} from "../../base";
-import {Nullable} from "../../ts-base";
 import _ from 'lodash';
 
 type RequestType = 'get' | 'post';

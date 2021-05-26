@@ -1,7 +1,11 @@
 import React from 'react';
+import {useHistory} from 'react-router-dom';
+import {Box} from "../../common/components";
 
 export default function Home() {
+    const history = useHistory();
+
     return (<div>
-        这里是首页内容！
+        <Box onClick={()=>history.push('/login')}>登录</Box>
     </div>)
 };
