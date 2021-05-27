@@ -25,7 +25,7 @@ const Login:React.FunctionComponent<RouteComponentProps> = function Login({histo
             const result: any = await loginRequest(values)
             globalData.User = result.data;
             message.success('登录成功!');
-            setDefaultSelectKey(0);
+            setDefaultSelectKey('/home');
             history.push("/home");
         })
     };
