@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {Button, Card} from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import {Button, Card, Upload} from 'antd';
 import {useOpenInfo, usePost} from "../../common/hooks";
 import AddModal from "./AddModal";
 import {Api, globalData} from "../../base";
@@ -25,7 +26,10 @@ export default function OvertimeRecord() {
             <Selects setParams={setParams}/>
             <AddButton setOpenInfo={setOpenInfo}/>
         </div>
-        <Card title='记录' extra={<ApplyDetailButton setOpenInfo={setOpenInfo}/>}>
+        <Card title='记录' extra={<>
+            <ApplyDetailButton setOpenInfo={setOpenInfo}/>
+            <UploadButton/>
+        </>}>
             <RecordTable data={data} columns={useColumns(useOperations(query))} loading={loading}/>
         </Card>
         <AddModal visible={openInfo.type === 'add'} close={close} refresh={query}/>
@@ -93,4 +97,10 @@ function AddButton(props: { setOpenInfo: (arg0: { type: string; }) => void; }) {
     return <Button type='primary' onClick={() => props.setOpenInfo({type: 'add'})}>
         {globalData.User.isManager ? '新增' : '申请'}
     </Button>
+}
+
+function UploadButton(){
+    return <Upload accept='.xlsx'>
+        <Button icon={<UploadOutlined/>}>上传</Button>
+    </Upload>
 }
