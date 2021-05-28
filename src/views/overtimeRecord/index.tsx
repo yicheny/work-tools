@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import { UploadOutlined } from '@ant-design/icons';
-import {Button, Card, Upload} from 'antd';
+import {Button, Card, Upload, message} from 'antd';
 import {useOpenInfo, usePost} from "../../common/hooks";
 import AddModal from "./AddModal";
 import {Api, globalData} from "../../base";
@@ -100,7 +100,22 @@ function AddButton(props: { setOpenInfo: (arg0: { type: string; }) => void; }) {
 }
 
 function UploadButton(){
-    return <Upload accept='.xlsx'>
+    const uploadProps = {
+        name:'files',
+        accept:'.xlsx',
+        action:'/overtime-record/upload',
+        headers: {
+            uuid:globalData.User.uuid
+        }
+        // onChange:(info: { file: { status: string; name: string; }; })=>{
+        //     if (info.file.status === 'done') {
+        //         message.success(`${info.file.name} file uploaded successfully`);
+        //     } else if (info.file.status === 'error') {
+        //         message.error(`${info.file.name} file upload failed.`);
+        //     }
+        // }
+    }
+    return <Upload {...uploadProps}>
         <Button icon={<UploadOutlined/>}>上传</Button>
     </Upload>
 }
