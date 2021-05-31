@@ -11,6 +11,7 @@ import {IQueryParams} from "./ts-define";
 import ApplyDetailModal from "./ApplyDetailModal";
 import {getCommonColumns, RecordTable} from "./RecordTable";
 import {Links} from "../../common/components";
+import {UploadChangeParam} from "antd/lib/upload/interface";
 
 export default function OvertimeRecord() {
     const {openInfo, setOpenInfo, close} = useOpenInfo();
@@ -106,14 +107,14 @@ function UploadButton(){
         action:'/overtime-record/upload',
         headers: {
             uuid:globalData.User.uuid
+        },
+        onChange:(info: UploadChangeParam)=>{
+            if (info.file.status === 'done') {
+                message.success(`${info.file.name} 文件上传成功`);
+            } else if (info.file.status === 'error') {
+                message.error(`${info.file.name} 文件上传失败`);
+            }
         }
-        // onChange:(info: { file: { status: string; name: string; }; })=>{
-        //     if (info.file.status === 'done') {
-        //         message.success(`${info.file.name} file uploaded successfully`);
-        //     } else if (info.file.status === 'error') {
-        //         message.error(`${info.file.name} file upload failed.`);
-        //     }
-        // }
     }
     return <Upload {...uploadProps}>
         <Button icon={<UploadOutlined/>}>上传</Button>
