@@ -12,6 +12,7 @@ import ApplyDetailModal from "./ApplyDetailModal";
 import {getCommonColumns, RecordTable} from "./RecordTable";
 import {Links} from "../../common/components";
 import {UploadChangeParam} from "antd/lib/upload/interface";
+import api from "../../base/api";
 
 export default function OvertimeRecord() {
     const {openInfo, setOpenInfo, close} = useOpenInfo();
@@ -29,6 +30,7 @@ export default function OvertimeRecord() {
         </div>
         <Card title='记录' extra={<>
             <ApplyDetailButton setOpenInfo={setOpenInfo}/>
+            <DownloadButton/>
             <UploadButton/>
         </>}>
             <RecordTable data={data} columns={useColumns(useOperations(query))} loading={loading}/>
@@ -119,4 +121,12 @@ function UploadButton(){
     return <Upload {...uploadProps}>
         <Button icon={<UploadOutlined/>}>上传</Button>
     </Upload>
+}
+
+// http://localhost:3001/#/overtime-record
+function DownloadButton(){
+    const handleClick = useCallback(()=>{
+        api.download('/study-record/downloadFile');
+    },[]);
+    return <Button onClick={handleClick}>下载</Button>
 }

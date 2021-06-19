@@ -16,9 +16,9 @@ window.extends_settings = {
 type cancel = CancelToken | true | undefined;
 
 class API{
-    static servers:Voidable<AxiosInstance[]> = undefined;
+    private static servers:Voidable<AxiosInstance[]> = undefined;
 
-    static init() {
+    private static init() {
         API.servers = null;
         const settings = window.extends_settings;
         if (_.get(settings,'api_server.enable')) {

@@ -6,7 +6,7 @@ import styles from "./index.module.scss";
 export default function Home() {
     const history = useHistory();
 
-    return (<div className={styles.home}>
+    return (<div className={styles.view}>
         <Box onClick={()=>history.push('/login')}>登录</Box>
         <Box onClick={()=>history.push('/overtime-record')}>记录</Box>
     </div>)
