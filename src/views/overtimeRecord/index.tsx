@@ -123,10 +123,9 @@ function UploadButton(){
     </Upload>
 }
 
-// http://localhost:3001/#/overtime-record
 function DownloadButton(){
     const handleClick = useCallback(()=>{
-        api.download('/study-record/downloadFile');
+        api.download('/api/study-record/downloadFile');
     },[]);
     return <Button onClick={handleClick}>下载</Button>
 }

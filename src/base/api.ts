@@ -8,8 +8,8 @@ import {IRequestResult, Nullable, Voidable} from "../ts-base";
 window.extends_settings = {
     api_server:{
         enable:true,
-        url:""
-        // url:'api' //目前将http-proxy-middleware配置改为了package.json的proxy处理
+        // url:"",//package.json proxy配置
+        url:'api' //http-proxy-middleware配置
     }
 }
 
