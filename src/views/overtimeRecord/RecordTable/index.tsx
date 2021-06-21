@@ -9,15 +9,16 @@ export function getCommonColumns() {
         {title: "#", dataIndex: '#', width: 60, render: (v: any, record: Object, i: number) => i + 1},
         {title: '姓名', dataIndex: 'name', width: 100},
         {
-            title: '日期', dataIndex: 'date', width: 120,
+            title: '加班日期', dataIndex: 'date', width: 120,
             render: (v: string) => moment(v).format('YYYY-MM-DD'),
         },
         {title: '时长', dataIndex: 'duration', render: (v: number) => `${v}天`, width: 80},
-        {title: '备注', dataIndex: 'memo'},
         {
             title: '创建时间', dataIndex: 'createdAt', width: 160,
             render: (v: string) => moment(v).format('YYYY-MM-DD HH:MM:SS')
-        }
+        },
+        {title: '是否使用', dataIndex: 'used', render: (v: number) => v ? '是' : '否', width: 100},
+        {title: '备注', dataIndex: 'memo'},
     ];
 }
 

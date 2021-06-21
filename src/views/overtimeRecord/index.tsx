@@ -125,7 +125,7 @@ function UploadButton(){
 
 function DownloadButton(){
     const handleClick = useCallback(()=>{
-        api.download('/api/study-record/downloadFile');
+        api.download('/api/overtime-record/download');
     },[]);
     return <Button onClick={handleClick}>下载</Button>
 }
