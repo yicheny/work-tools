@@ -106,7 +106,7 @@ function UploadButton(){
     const uploadProps = {
         name:'files',
         accept:'.xlsx',
-        action:'/overtime-record/upload',
+        action:'api/overtime-record/upload',
         headers: {
             uuid:globalData.User.uuid
         },

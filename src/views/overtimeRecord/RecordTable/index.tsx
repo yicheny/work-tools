@@ -7,7 +7,7 @@ import {ColumnsType} from "antd/lib/table";
 export function getCommonColumns() {
     return [
         {title: "#", dataIndex: '#', width: 60, render: (v: any, record: Object, i: number) => i + 1},
-        {title: '姓名', dataIndex: 'name', width: 100},
+        {title: '加班人员', dataIndex: 'name', width: 100},
         {
             title: '加班日期', dataIndex: 'date', width: 120,
             render: (v: string) => moment(v).format('YYYY-MM-DD'),
